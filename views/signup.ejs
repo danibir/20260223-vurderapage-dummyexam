@@ -1,11 +1,22 @@
 <%- include('./partials/head') %>
+<section class="block flexcol">
+    <h1>Lag bruker</h1>
+    <form action="/user/signup" method="post">
+        <label for="username">Brukernavn</label>
+        <br>
+        <input type="text" name="username" required>
+        <br>
+        <label for="password">Passord</label>
+        <br>
+        <input type="password" name="password" required>
+        <br>
+        <label for="confirm">Bekreft passord</label>
+        <br>
+        <input type="password" name="confirm" required>
+        <br>
+        <br>
+        <button type="submit"><h3>Lag bruker</h3></button>
+    </form>
+</section>
 
-<form action="/user/signup" method="post">
-    <label for="username">Brukernavn</label>
-    <input type="text" name="username" required>
-    <label for="password">Passord</label>
-    <input type="password" name="password" required>
-    <label for="confirm">Bekreft passord</label>
-    <input type="password" name="confirm" required>
-    <button type="submit"><h3>Lag bruker</h3></button>
-</form>
+<%- include('./partials/foot') %>

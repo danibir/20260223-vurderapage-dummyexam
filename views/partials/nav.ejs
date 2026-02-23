@@ -1,12 +1,18 @@
-<nav>
-    <a href="/">Hjem</a>
+<nav class="flexrow navbar">
+    <div class="navitem">
+        <a href="/">Hjem</a>
+    </div>
+    <div class="space"></div>
     <% if (!username) { %>
-        <a href="/user/login">Logg inn</a>
+        <a href="/user/login" class="navitem">Logg inn</a>
     <% } else { %>
         <form action="/user/logout" method="post">
-            <button>Logg ut</button>
+            <button class="navitem">Logg ut</button>
         </form>
     <% } %>
-     
+    <% if (username) { %>
+        <div class="navitem">
+            <%= username %>
+        </div>
+    <% } %>
 </nav>
-<h1><%= username %></h1>
