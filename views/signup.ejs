@@ -1,0 +1,11 @@
+<%- include('./partials/head') %>
+
+<form action="/user/signup" method="post">
+    <label for="username">Brukernavn</label>
+    <input type="text" name="username" required>
+    <label for="password">Passord</label>
+    <input type="password" name="password" required>
+    <label for="confirm">Bekreft passord</label>
+    <input type="password" name="confirm" required>
+    <button type="submit"><h3>Lag bruker</h3></button>
+</form>
