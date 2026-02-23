@@ -7,5 +7,6 @@ router.get('/login', controller_user.login_get)
 router.post('/login', controller_user.login_post)
 router.get('/signup', controller_user.signup_get)
 router.post('/signup', controller_user.signup_post)
+router.post('/logout', controller_user.logout_post)
 
 module.exports = router

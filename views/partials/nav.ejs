@@ -1,4 +1,12 @@
 <nav>
     <a href="/">Hjem</a>
-    <a href="/user/login">Logg inn</a>
+    <% if (!username) { %>
+        <a href="/user/login">Logg inn</a>
+    <% } else { %>
+        <form action="/user/logout" method="post">
+            <button>Logg ut</button>
+        </form>
+    <% } %>
+     
 </nav>
+<h1><%= username %></h1>

@@ -1,7 +1,16 @@
 const User = require('../models/mod-user')
+const jwt = require('jsonwebtoken')
 
 const login_get = (req, res) => {
-    res.render('login')
+    if (!req.username)
+    {
+        res.render('login')
+    }
+    else
+    {
+        console.log('aleady logged in')
+        res.redirect('/')
+    }
 }
 const login_post = async (req, res) => {
     const username = req.body.username
@@ -15,10 +24,11 @@ const login_post = async (req, res) => {
         console.log(user)
         const verified = await user.verifyPassword(password)
         if (verified) 
-        {
+        {   
             fail = false
+            const token = jwt.sign({ username }, 'your_jwt_secret', { expiresIn: '31m' })
+            res.cookie('accessToken', token, { httpOnly: true, sameSite: 'strict'})
             console.log('login successful')
-            //login logic
             res.redirect('/')
         }
     }
@@ -30,7 +40,15 @@ const login_post = async (req, res) => {
 }
 
 const signup_get = (req, res) => {
-    res.render('signup')
+    if (!req.username)
+    {
+        res.render('signup')
+    }
+    else
+    {
+        console.log('aleady logged in')
+        res.redirect('/')
+    }
 }
 const signup_post = async (req, res) => {
     const username = req.body.username
@@ -48,14 +66,15 @@ const signup_post = async (req, res) => {
             }
             let newObj = new User(obj)
             newObj.save()
-            //signin logic
+            const token = jwt.sign({ username }, 'your_jwt_secret', { expiresIn: '31m' })
+            res.cookie('accessToken', token, { httpOnly: true, sameSite: 'strict'})
             console.log('signup successful')
             res.redirect('/')
         }
         else
         {
             console.log('signup fail, username already taken')
-            es.redirect('/user/signup')
+            res.redirect('/user/signup')
         }
     }
     else
@@ -65,9 +84,15 @@ const signup_post = async (req, res) => {
     }
 }
 
+const logout_post = (req, res) => {
+    res.clearCookie('accessToken')
+    res.redirect('/')
+}
+
 module.exports = {
     login_get,
     login_post,
     signup_get,
-    signup_post
+    signup_post,
+    logout_post
 }
