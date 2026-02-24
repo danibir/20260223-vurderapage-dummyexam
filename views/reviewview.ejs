@@ -1,0 +1,15 @@
+<%- include('./partials/head') %>
+
+    <section class="block">
+        <a href="<%= review.url %>" class="link"><%= review.url %></a>
+        <h1><%= review.title %></h1>
+        <h6>Skrevet av <%= review.op %></h6>
+        <p class="textsafe"><%= review.content %></p>
+        <% if (review.op == username) { %>
+            <form action="/review/delete/<%= review._id %>" method="post">
+                <button>SLETT VURDERING</button>
+            </form>
+        <% } %>
+    </section>
+
+<%- include('./partials/foot') %>

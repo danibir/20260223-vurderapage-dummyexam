@@ -1,0 +1,24 @@
+<%- include('./partials/head') %>
+
+    <section class="block">
+        <h1>Lag vurdering</h1>
+        <form action="/review/create" method="post">
+            <label for="title">Tittel</label>
+            <br>
+            <input type="text" name="title" required>
+            <br>
+            <label for="content">Vurdering</label>
+            <br>
+            <textarea name="content" required class="textarea"></textarea>
+            <br>
+            <label for="url">Link</label>
+            <br>
+            <input type="url" name="url" required>
+            <br>
+            <br>
+            <button>Lag vurdering</button>
+        </form>
+
+    </section>
+
+<%- include('./partials/foot') %>

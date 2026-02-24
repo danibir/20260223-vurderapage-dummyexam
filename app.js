@@ -8,6 +8,7 @@ const mid_auth = require('./middleware/mid-auth')
 
 const router_main = require('./routers/rou-main')
 const router_user = require('./routers/rou-user')
+const router_review = require('./routers/rou-review')
 
 
 const app = express()
@@ -26,6 +27,7 @@ db.connectToMongoDb("main")
     app.use(mid_auth.authenticate)
     app.use('/', router_main)
     app.use('/user', router_user)
+    app.use('/review', router_review)
 })
 .catch(()=>{
     console.log('Database connection failed.')

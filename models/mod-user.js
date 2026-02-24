@@ -1,5 +1,7 @@
 const argon2 = require('argon2')
 
+const Review = require('./mod-review')
+
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -19,10 +21,22 @@ const userSchema = new Schema({
     }
 })
 
-userSchema.pre('save', async function () {
-    if (!this.isModified('password')) return
-    this.password = await argon2.hash(this.password)
-})
+    userSchema.pre('save', async function () {
+        if (this.isModified('password')) {
+            this.password = await argon2.hash(this.password)
+        }
+        if (this.isModified('posts'))
+        {
+            for (var i = 0; i < this.posts.length; i++) {
+                const postExists = await Review.exists({ _id: this.posts[i] })
+                if (!postExists)
+                {
+                    this.posts.splice(i, 1)
+                    i--
+                }
+            }
+        }
+    })
 
 userSchema.methods.verifyPassword = function (pw) {
     return argon2.verify(this.password, pw)

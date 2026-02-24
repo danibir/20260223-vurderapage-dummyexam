@@ -2,6 +2,11 @@
     <div class="navitem">
         <a href="/">Hjem</a>
     </div>
+    <% if (username) { %>
+        <div class="navitem">
+            <a href="/review/create">Lag vurdering</a>
+        </div>
+    <% } %>
     <div class="space"></div>
     <% if (!username) { %>
         <a href="/user/login" class="navitem">Logg inn</a>

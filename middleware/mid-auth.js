@@ -9,7 +9,7 @@ const authenticate = async (req, res, next) => {
         try {
             const payload = jwt.verify(token, 'your_jwt_secret')
             const user = await User.findOne({ username: payload.username })
-            username = user.username || null
+            username = user ? user.username : null
         } catch (err) {
             req.username = null
 
@@ -24,7 +24,24 @@ const authenticate = async (req, res, next) => {
 
     next()
 }
+const authLogin = async (req, res, next) => {
+    if (!req.username) {
+        console.log('authLogin fail, login required, but missing')
+        return res.redirect('/')
+    }
+    else 
+    {
+        const user = await User.findOne({ username: req.username })
+        if (!user)
+        {
+            console.log('authLogin fail, invalid username, cant be found in database')
+            return res.redirect('/')
+        }
+    }
+    next()
+}
 
 module.exports = {
-    authenticate
+    authenticate,
+    authLogin
 }
