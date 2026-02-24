@@ -1,0 +1,15 @@
+<%- include('./partials/head') %>
+
+    <section class="block">
+
+        <h1><%= profileUser.username %></h1>
+
+        <% if (profileUser.username == username) { %>
+            <form action="/user/delete" method="post">
+                <Button>SLETT BRUKER</Button>
+            </form>
+        <% } %>
+
+    </section>
+
+<%- include('./partials/foot') %>

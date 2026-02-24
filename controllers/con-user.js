@@ -89,10 +89,39 @@ const logout_post = (req, res) => {
     res.redirect('/')
 }
 
+const profile_get = async (req, res) => {
+    const username = req.params.username
+    const user = await User.findOne({ username })
+    const profileUser = {
+        username: user.username,
+        posts: user.posts
+    }
+    res.render('profile', {profileUser})
+}
+
+const user_delete = async (req, res) => {
+    try {
+        const username = req.username
+        const user = await User.findOneAndDelete({ username })
+
+        if (!user) {
+            return res.redirect('/')
+        }
+
+        res.clearCookie('accessToken')
+        res.redirect('/')
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+
 module.exports = {
     login_get,
     login_post,
     signup_get,
     signup_post,
-    logout_post
+    logout_post,
+    profile_get,
+    user_delete
 }
