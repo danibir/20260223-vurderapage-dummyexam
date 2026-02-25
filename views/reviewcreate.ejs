@@ -2,7 +2,7 @@
 
     <section class="block">
         <h1>Lag vurdering</h1>
-        <form action="/review/create" method="post">
+        <form action="/review/create" method="post" enctype="multipart/form-data">
             <label for="title">Tittel</label>
             <br>
             <input type="text" name="title" required>
@@ -14,6 +14,10 @@
             <label for="url">Link</label>
             <br>
             <input type="url" name="url" required>
+            <br>
+            <label for="image">Bilde</label>
+            <br>
+            <input type="file" id="image" name="image" accept="image/*" required>
             <br>
             <br>
             <button>Lag vurdering</button>

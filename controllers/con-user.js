@@ -1,8 +1,9 @@
 const User = require('../models/mod-user')
+const Review = require('../models/mod-review')
 const jwt = require('jsonwebtoken')
 
 const login_get = (req, res) => {
-    if (!req.username)
+    if (!req.user)
     {
         res.render('login')
     }
@@ -40,7 +41,7 @@ const login_post = async (req, res) => {
 }
 
 const signup_get = (req, res) => {
-    if (!req.username)
+    if (!req.user)
     {
         res.render('signup')
     }
@@ -65,7 +66,7 @@ const signup_post = async (req, res) => {
                 password
             }
             let newObj = new User(obj)
-            newObj.save()
+            await newObj.save()
             const token = jwt.sign({ username }, 'your_jwt_secret', { expiresIn: '31m' })
             res.cookie('accessToken', token, { httpOnly: true, sameSite: 'strict'})
             console.log('signup successful')
@@ -101,12 +102,14 @@ const profile_get = async (req, res) => {
 
 const user_delete = async (req, res) => {
     try {
-        const username = req.username
+        const username = req.user.username
         const user = await User.findOneAndDelete({ username })
 
         if (!user) {
             return res.redirect('/')
         }
+
+        r
 
         res.clearCookie('accessToken')
         res.redirect('/')

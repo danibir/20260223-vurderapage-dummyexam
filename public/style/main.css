@@ -21,11 +21,13 @@ a {
 
 .flexRow
 {
+    width: 100%;
     display: flex;
     flex-direction: row;
 }
 .flexCol
 {
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -93,4 +95,28 @@ a {
     margin: 10px;
     border-radius: 2px;
     width: 30vw;
+}
+.reviewimage {
+    width: 100%;
+}
+.viewblock
+{
+    padding: 15px;
+    background-color: white;
+    border-color: skyblue;
+    border-width: 4px;
+    border-radius: 5px;
+    border-style: solid;
+    min-width: 20vw;
+    max-width: 50vw;
+    text-wrap: 1;
+}
+
+.likeform > *
+{
+    margin: 5px;
+}
+.formselected
+{
+    background-color: lightgrey;
 }

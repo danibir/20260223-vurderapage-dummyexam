@@ -7,10 +7,11 @@ const index_get = async (req, res) => {
         const cutoff = 35
         if (reviews[i].content.length > cutoff)
         {
-            reviews[i].content = reviews[i].content.slice(0, cutoff -1)
+            reviews[i].content = reviews[i].content.slice(0, cutoff)
             reviews[i].content += "..."
         }
     }
+    reviews.sort((a, b) => (b.likes.length - b.dislikes.length * 0.3) - (a.likes.length - a.dislikes.length * 0.3))
     res.render('index', { reviews })
 }
 

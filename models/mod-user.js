@@ -21,22 +21,11 @@ const userSchema = new Schema({
     }
 })
 
-    userSchema.pre('save', async function () {
-        if (this.isModified('password')) {
-            this.password = await argon2.hash(this.password)
-        }
-        if (this.isModified('posts'))
-        {
-            for (var i = 0; i < this.posts.length; i++) {
-                const postExists = await Review.exists({ _id: this.posts[i] })
-                if (!postExists)
-                {
-                    this.posts.splice(i, 1)
-                    i--
-                }
-            }
-        }
-    })
+userSchema.pre('save', async function () {
+    if (this.isModified('password')) {
+        this.password = await argon2.hash(this.password)
+    }
+})
 
 userSchema.methods.verifyPassword = function (pw) {
     return argon2.verify(this.password, pw)

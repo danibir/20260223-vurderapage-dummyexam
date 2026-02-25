@@ -1,14 +1,32 @@
 <%- include('./partials/head') %>
-
-    <section class="block">
+    <section class="viewblock">
         <a href="<%= review.url %>" class="link"><%= review.url %></a>
         <h1><%= review.title %></h1>
         <h6>Skrevet av <%= review.op %></h6>
-        <p class="textsafe"><%= review.content %></p>
-        <% if (review.op == username) { %>
+        <img src="<%= review.imageurl %>" class="reviewimage" alt="">
+        <p><%- review.content.replace(/\r\n/g, '</p><p>') %></p>
+        <% if (user && review.op == user.username) { %>
             <form action="/review/delete/<%= review._id %>" method="post">
                 <button>SLETT VURDERING</button>
             </form>
+        <% } else if (user) { %>
+            <br>
+            <br>
+            <a href="/review/view/<%= review._id %>">yo</a>
+            <h5>Var denne vurdering passende</h5>
+            <div class="flexRow likeform">        
+                <form action="/review/like/<%= review._id %>" method="post">
+                    <button class="<% if (review.likes.includes(user._id)) { %> formselected <% } %>" >
+                        Ja
+                    </button>
+                </form>
+                /
+                <form action="/review/dislike/<%= review._id %>" method="post">
+                    <button class="<% if (review.dislikes.includes(user._id)) { %> formselected <% } %>" >
+                        Nei
+                    </button>
+                </form>
+            </div>
         <% } %>
     </section>
 

@@ -4,7 +4,7 @@
 
         <h1><%= profileUser.username %></h1>
 
-        <% if (profileUser.username == username) { %>
+        <% if (user && profileUser.username == user.username) { %>
             <form action="/user/delete" method="post">
                 <Button>SLETT BRUKER</Button>
             </form>
