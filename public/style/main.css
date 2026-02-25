@@ -147,3 +147,9 @@ a {
     background-color: salmon;
     border-color: red;
 }
+
+.righted {
+    text-align: right;
+    display: flex;
+    justify-content: right;
+}

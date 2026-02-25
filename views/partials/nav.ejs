@@ -8,6 +8,11 @@
         </div>
     <% } %>
     <div class="space"></div>
+    <% if (user && user.isAdmin) { %>
+        <div class="navitem">
+            <a href="/review/reported">Rapporter</a>
+        </div>
+    <% } %>
     <% if (!user) { %>
         <a href="/user/login" class="navitem">Logg inn</a>
     <% } else { %>

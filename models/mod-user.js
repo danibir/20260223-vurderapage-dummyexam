@@ -1,7 +1,5 @@
 const argon2 = require('argon2')
 
-const Review = require('./mod-review')
-
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -15,6 +13,10 @@ const userSchema = new Schema({
         type: String,
         require: true
     },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },  
     posts: {
         type: Array,
         default: []
@@ -30,6 +32,23 @@ userSchema.pre('save', async function () {
 userSchema.methods.verifyPassword = function (pw) {
     return argon2.verify(this.password, pw)
 }
+
+userSchema.post('findOneAndDelete', async function (doc) {
+    if (!doc)
+    {
+        return
+    }
+    
+    const Review = mongoose.model('Review')
+    await Review.updateMany({},{
+        $pull: {
+            likes: doc._id,
+            dislikes: doc._id,
+            reports: doc._id
+        }}) 
+    await Review.deleteMany({ op: doc.username})
+})
+
 
 const User = mongoose.model('User', userSchema, 'users')
 module.exports = User

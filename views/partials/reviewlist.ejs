@@ -1,0 +1,13 @@
+
+    <section class="flexCol">
+        <% for( var i = 0; i < reviews.length; i++ ) { 
+            review = reviews[i]
+            if (i % 2 == 0) { %>
+                <section class="center flexRow">
+            <% } %> 
+            <%- include('./reviewblock', { review, details }) %>
+            <%if (i % 2 == 1 || i == reviews.length - 1) { %>
+                </section>    
+            <% } %>
+        <% } %>
+    </section>

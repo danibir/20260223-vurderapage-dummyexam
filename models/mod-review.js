@@ -31,9 +31,19 @@ const reviewSchema = new Schema({
     dislikes: {
         type: Array,
         default: []
+    },
+    reports: {
+        type: Array,
+        default: []
     }
 })
 
+reviewSchema.post('findOneAndDelete', async function (doc) { 
+    if (!doc) {
+        return 
+    }
+    await User.updateOne({ username: doc.op }, { $pull: { posts: doc._id }})
+})
 
 const Review = mongoose.model('Review', reviewSchema, 'reviews')
 module.exports = Review

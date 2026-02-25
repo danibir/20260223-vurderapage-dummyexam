@@ -5,27 +5,57 @@
         <h6>Skrevet av <%= review.op %></h6>
         <img src="<%= review.imageurl %>" class="reviewimage" alt="">
         <p class="textsafe"><%- review.content.replace(/\r\n/g, '</p><p class="textsafe">') %></p>
-        <% if (user && review.op == user.username) { %>
-            <form action="/review/delete/<%= review._id %>" method="post">
-                <button>SLETT VURDERING</button>
-            </form>
-        <% } else if (user) { %>
+        <% if (user) { %>
             <br>
             <br>
-            <a href="/review/view/<%= review._id %>">yo</a>
-            <h5>Var denne vurdering passende</h5>
-            <div class="flexRow likeform">        
-                <form action="/review/like/<%= review._id %>" method="post">
-                    <button class="<% if (review.likes.includes(user._id)) { %> formselected <% } %>" >
-                        Ja
-                    </button>
-                </form>
-                /
-                <form action="/review/dislike/<%= review._id %>" method="post">
-                    <button class="<% if (review.dislikes.includes(user._id)) { %> formselected <% } %>" >
-                        Nei
-                    </button>
-                </form>
+            <div class="flexRow">
+                <% if (review.op == user.username || user.isAdmin == true) { %>
+                    <form action="/review/delete/<%= review._id %>" method="post">
+                        <button>SLETT VURDERING</button>
+                    </form>
+                <% } else { %>
+                    <div class="flexCol">
+                        <h5>Var denne vurdering passende?</h5>
+                        <div class="flexRow likeform">        
+                            <form action="/review/like/<%= review._id %>" method="post">
+                                <button class="<% if (review.likes.includes(user._id)) { %> formselected <% } %>" >
+                                    Ja
+                                </button>
+                            </form>
+                            /
+                            <form action="/review/dislike/<%= review._id %>" method="post">
+                                <button class="<% if (review.dislikes.includes(user._id)) { %> formselected <% } %>" >
+                                    Nei
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <% } %>
+                <div class="space"></div>
+                    <div class="flexCol righted">
+                        <% if (user.isAdmin == false && review.op != user.username) { 
+                            if (!review.reports.includes(user._id)) { %>
+                                <h5>Er ikke vurderingen autentisk?</h5>
+                                <div class="flexRow likeform righted">    
+                                    <form action="/review/report/<%= review._id %>" method="post">
+                                        <button class="<% if (review.reports.includes(user._id)) { %> formselected <% } %>" >
+                                            Rapporter
+                                        </button>
+                                    </form>
+                                </div>
+                            <% } else { %>
+                                <h5>Du har rapportert denne vurderingen. Administratorere har blitt varslet.</h5>
+                        <% }} else if (user.isAdmin == true && review.reports.length > 0) { %>
+                            <h5>Denne vurderingen har blitt rapportert som uautentisk. Autentiser ilikevel?</h5>
+                            <div class="flexRow likeform righted">    
+                                <form action="/review/dismiss/<%= review._id %>" method="post">
+                                    <button class="<% if (review.reports.includes(user._id)) { %> formselected <% } %>" >
+                                        Autentiser
+                                    </button>
+                                </form>
+                            </div>
+                        <% } %>
+                </div>
             </div>
         <% } %>
     </section>

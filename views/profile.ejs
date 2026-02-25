@@ -3,10 +3,18 @@
     <section class="block">
 
         <h1><%= profileUser.username %></h1>
-
+        <% if (profileUser.isAdmin == true) { %>
+            <h6>Administrator</h6>
+        <% } else { %>
+            <h6>Bruker</h6>
+        <% } %>
         <% if (user && profileUser.username == user.username) { %>
+            <form action="/user/logout" method="post">
+                <button>Logg ut</button>
+            </form>
+            <br>
             <form action="/user/delete" method="post">
-                <Button>SLETT BRUKER</Button>
+                <Button>Slett bruker</Button>
             </form>
         <% } %>
 

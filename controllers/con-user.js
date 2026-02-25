@@ -97,7 +97,8 @@ const profile_get = async (req, res) => {
     const user = await User.findOne({ username })
     const profileUser = {
         username: user.username,
-        posts: user.posts
+        posts: user.posts,
+        isAdmin: user.isAdmin
     }
     res.render('profile', {profileUser})
 }

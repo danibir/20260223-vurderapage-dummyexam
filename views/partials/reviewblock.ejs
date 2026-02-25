@@ -4,5 +4,12 @@
         <h2 class="reviewtext"><%= review.title %></h2>
         <h5 class="reviewtext"><%= review.url %></h5>
         <p class="reviewtext"><%= review.content %></p>
+        <br>
+        <% if (details && details.includes('report')) {%> 
+                <h6>Rapportantall: <%= review.reports.length %></h6>
+        <% } %>
+        <% if (details && details.includes('rating')) {%> 
+                <h6>Bedømmelse: <%= review.likes.length - review.dislikes.length * 0.3 %></h6>
+        <% } %>
     </div>
 </a>
