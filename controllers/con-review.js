@@ -1,6 +1,7 @@
 const Review = require('../models/mod-review')
 const User = require('../models/mod-user')
 const upload = require("../handlers/han-upload")
+const { createFlashCookie } = require('../util/flashMessage')
 
 const create_get = (req, res) => {
     res.render('reviewcreate')
@@ -14,8 +15,6 @@ const create_post = async (req, res) => {
             reviewData.imageurl = await upload.uploadImageSFTP(localPath, req.file.originalname)
         }
 
-        console.log(req.file)
-
         const review = new Review(reviewData)
         await review.save()
 
@@ -23,9 +22,11 @@ const create_post = async (req, res) => {
         user.posts.push(review._id) 
         await user.save()
 
+        createFlashCookie(res, 'Publiserte vurdering!', 'success')
         res.redirect('/')
     } catch (err) {
         console.log(err)
+        createFlashCookie(res, 'Error.', 'error')
         res.redirect('/review/create')
     }
 }
@@ -37,6 +38,7 @@ const view_get = async (req, res) => {
         res.render('reviewview', { review })
     } catch (err) {
         console.log(err)
+        createFlashCookie(res, 'Error.', 'error')
         res.redirect('/')
     }
 }
@@ -48,11 +50,11 @@ const delete_post = async (req, res) => {
         const review = await Review.findOneAndDelete({ _id })
 
         if (!review) {
-            console.log('couldnt find review')
+            createFlashCookie(res, 'Kunne ikke finne vurdering.', 'error')
             return res.redirect('/')
         }
         if (review.op != username) {
-            console.log('not authorized user')
+            createFlashCookie(res, 'Ikke autorisert til å slette vurdering.', 'error')
             return res.redirect('/')
         }
         if (review.imageurl) { 
@@ -62,9 +64,12 @@ const delete_post = async (req, res) => {
         const user = await User.findOne({ username })
         user.posts = user.posts.filter(item => item !== _id)
         await user.save()
+        createFlashCookie(res, 'Slettet vudering!', 'success')
         res.redirect('/')
     } catch (err) {
         console.log(err)
+        createFlashCookie(res, 'Error.', 'error')
+        res.render('/')
     }
 }
 
@@ -76,11 +81,11 @@ const like_post = async (req, res) => {
         const review = await Review.findOne({ _id })
         const user = await User.findOne({ username })       
         if (!review) {
-            console.log('couldnt find review')
+            createFlashCookie(res, 'Kunne ikke finne vurdering.', 'error')
             return res.redirect('/')
         }
         if (review.op == username) {
-            console.log('not authorized user; you cant vote for your own post!')
+            createFlashCookie(res, 'Ikke authorisert til å stemme; du kan ikke stemme på din egen vurdering!', 'error')
             return res.redirect('/')
         }
         
@@ -89,13 +94,17 @@ const like_post = async (req, res) => {
         if (!alreadyLiked) {
             review.likes.push(user._id)
             review.dislikes = review.dislikes.filter(id => id.toString() !== user._id.toString())
+            createFlashCookie(res, 'Likte vurdering.', 'success')
         } else {
             review.likes = review.likes.filter(id => id.toString() !== user._id.toString())
+            createFlashCookie(res, 'U-likte vurdering.', 'success')
         }
         await review.save()
         res.redirect(`/review/view/${_id}`)
     } catch (err) {
         console.log(err)
+        createFlashCookie(res, 'Error.', 'error')
+        res.redirect('/')
     }
 }
 const dislike_post = async (req, res) => {
@@ -106,11 +115,11 @@ const dislike_post = async (req, res) => {
         const review = await Review.findOne({ _id }) 
         const user = await User.findOne({ username })       
         if (!review) {
-            console.log('couldnt find review')
+            createFlashCookie(res, 'Kunne ikke finne vurdering.', 'error')
             return res.redirect('/')
         }
         if (review.op == username) {
-            console.log('not authorized user; you cant vote for your own post!')
+            createFlashCookie(res, 'Ikke authorisert til å stemme; du kan ikke stemme på din egen vurdering!', 'error')
             return res.redirect('/')
         }
         const alreadyDisliked = review.dislikes.some(id => id.toString() === user._id.toString())
@@ -118,13 +127,17 @@ const dislike_post = async (req, res) => {
         if (!alreadyDisliked) {
             review.dislikes.push(user._id)
             review.likes = review.likes.filter(id => id.toString() !== user._id.toString())
+            createFlashCookie(res, 'Mislikte vurdering.', 'success')
         } else {
             review.dislikes = review.dislikes.filter(id => id.toString() !== user._id.toString())
+            createFlashCookie(res, 'U-mislikte vurdering.', 'success')
         }
         await review.save()
         res.redirect(`/review/view/${_id}`)
     } catch (err) {
         console.log(err)
+        createFlashCookie(res, 'Error.', 'error')
+        res.redirect('/')
     }
 }
 

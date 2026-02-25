@@ -4,7 +4,7 @@
         <h1><%= review.title %></h1>
         <h6>Skrevet av <%= review.op %></h6>
         <img src="<%= review.imageurl %>" class="reviewimage" alt="">
-        <p><%- review.content.replace(/\r\n/g, '</p><p>') %></p>
+        <p class="textsafe"><%- review.content.replace(/\r\n/g, '</p><p class="textsafe">') %></p>
         <% if (user && review.op == user.username) { %>
             <form action="/review/delete/<%= review._id %>" method="post">
                 <button>SLETT VURDERING</button>

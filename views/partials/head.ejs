@@ -11,4 +11,11 @@
 
 <body>
     <div class="center">
+        <% if (flash) { %>
+            <div class="flash flash<%= flash.type %>">
+                <%= flash.message %>
+            </div>
+        <% } %>
+    </div>
+    <div class="center">
         <section class="flexcol">

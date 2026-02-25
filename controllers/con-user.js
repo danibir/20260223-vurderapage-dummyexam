@@ -1,6 +1,7 @@
 const User = require('../models/mod-user')
 const Review = require('../models/mod-review')
 const jwt = require('jsonwebtoken')
+const { createFlashCookie } = require('../util/flashMessage')
 
 const login_get = (req, res) => {
     if (!req.user)
@@ -9,7 +10,7 @@ const login_get = (req, res) => {
     }
     else
     {
-        console.log('aleady logged in')
+        createFlashCookie(res, 'Allerede logget på.', 'info')
         res.redirect('/')
     }
 }
@@ -29,13 +30,13 @@ const login_post = async (req, res) => {
             fail = false
             const token = jwt.sign({ username }, 'your_jwt_secret', { expiresIn: '31m' })
             res.cookie('accessToken', token, { httpOnly: true, sameSite: 'strict'})
-            console.log('login successful')
+            createFlashCookie(res, 'Logget inn!', 'success')
             res.redirect('/')
         }
     }
     if (fail == true)
     {
-        console.log('login fail, wrong username or password')
+        createFlashCookie(res, 'Feil brukernavn eller passord.', 'error')
         res.redirect('/user/login')
     }
 }
@@ -47,7 +48,7 @@ const signup_get = (req, res) => {
     }
     else
     {
-        console.log('aleady logged in')
+        createFlashCookie(res, 'Allerede logget på.', 'info')
         res.redirect('/')
     }
 }
@@ -74,13 +75,14 @@ const signup_post = async (req, res) => {
         }
         else
         {
-            console.log('signup fail, username already taken')
+            createFlashCookie(res, 'Brukernavn allerede tatt.', 'error')
             res.redirect('/user/signup')
         }
     }
     else
     {
-        console.log('signup fail, passwords does not match')
+        
+        createFlashCookie(res, 'Passordene samsvarer ikke med hverandre.', 'error')
         res.redirect('/user/signup')
     }
 }
@@ -108,10 +110,8 @@ const user_delete = async (req, res) => {
         if (!user) {
             return res.redirect('/')
         }
-
-        r
-
         res.clearCookie('accessToken')
+        createFlashCookie(res, 'Bruker slettet', 'info')
         res.redirect('/')
     } catch (err) {
         console.error(err)
