@@ -1,0 +1,59 @@
+<%- include('./partials/head') %>
+    
+    <section class="block">
+        <h1>FAQ</h1>
+
+
+    </section>
+    <section class="block">
+        <h1>FAQ – VurderaPage</h1>
+
+        <h2>Generelle spørsmål</h2>
+
+        <h3>Hva er WCAG?</h3>
+        <p>WCAG står for "Web Content Accessibility Guidelines". Det er internasjonale retningslinjer som beskriver hvordan nettsider bør utformes for å være tilgjengelige for alle, inkludert personer med ulike funksjonsnedsettelser. Retningslinjene dekker blant annet kontraster, navigasjon, tekstalternativer for bilder, struktur og universell utforming.</p>
+        
+        <h3>Hva er VurderaPage?</h3>
+        <p>VurderaPage er en tjeneste der brukere kan publisere WCAG‑vurderinger av nettsider. En vurdering inneholder tittel, tekst, URL, bilde(r) og informasjon om hvem som opprettet den. Andre brukere kan stemme positivt eller negativt på vurderinger.</p>
+
+        <h3>Hvordan oppretter jeg en bruker?</h3>
+        <p>Du kan registrere en konto via registreringsskjemaet. Når du har en konto kan du logge inn, logge ut og slette kontoen din når du ønsker.</p>
+
+        <h3>Hvordan legger jeg inn en WCAG‑vurdering?</h3>
+        <p>Når du er innlogget kan du opprette en vurdering ved å fylle inn tittel, tekst, URL og bilde. Vurderingen blir synlig for andre brukere, og URL‑en sender brukere videre til nettsiden du vurderer.</p>
+
+        <h3>Kan jeg slette vurderingene mine?</h3>
+        <p>Ja, du kan slette dine egne vurderinger når som helst.</p>
+
+        <h3>Hvordan fungerer stemmingen?</h3>
+        <p>Alle brukere kan stemme positivt eller negativt på vurderinger. Stemmer påvirker rangeringen av vurderingene på siden.</p>
+
+        <h3>Kan jeg rapportere en vurdering?</h3>
+        <p>Ja. Hvis du mener en vurdering er upassende eller feilaktig, kan du rapportere den. Administratorer vil da gjennomgå rapporten.</p>
+
+        <h3>Hvordan håndteres bilder jeg laster opp?</h3>
+        <p>Bilder du laster opp lagres på en egen bildeserver. Systemet håndterer både opplasting og visning av bildene.</p>
+
+        <h3>Hvordan fungerer innlogging og tilgang?</h3>
+        <p>Systemet bruker sesjonsbasert autentisering. Du må være innlogget for å opprette vurderinger, stemme og rapportere innhold.</p>
+
+        <% if (user && user.isAdmin == true) { %>
+            <hr>
+
+            <h2>For administratorer</h2>
+
+            <h3>Hva kan administratorer gjøre?</h3>
+            <p>Administratorer har tilgang til flere modereringsverktøy:</p>
+            <ul>
+                <li>Se alle rapporterte vurderinger</li>
+                <li>Avvise rapporter</li>
+                <li>Slette vurderinger</li>
+            </ul>
+
+            <h3>Hvordan fungerer rapporteringssystemet?</h3>
+            <p>Når en bruker rapporterer en vurdering, blir den lagt i en egen oversikt for administratorer. Administratorer kan deretter vurdere om rapporten skal avvises eller om vurderingen skal slettes.</p>
+        <% } %>
+    
+    </section>
+
+<%- include('./partials/foot') %>

@@ -20,6 +20,11 @@ const index_get = async (req, res) => {
     res.render('index', { reviews })
 }
 
+const faq_get = (req, res) => {
+    res.render('faq')
+}
+
 module.exports = {
-    index_get
+    index_get,
+    faq_get
 }
