@@ -26,7 +26,7 @@ const create_post = async (req, res) => {
         res.redirect('/')
     } catch (err) {
         console.log(err)
-        createFlashCookie(res, 'Error.', 'error')
+        createFlashCookie(res, 'Error, noe gikk galt under lagring av vurderingen.', 'error')
         res.redirect('/review/create')
     }
 }
@@ -38,7 +38,7 @@ const view_get = async (req, res) => {
         res.render('reviewview', { review })
     } catch (err) {
         console.log(err)
-        createFlashCookie(res, 'Error.', 'error')
+        createFlashCookie(res, 'Error, noe gikk galt.', 'error')
         res.redirect('/')
     }
 }
@@ -47,7 +47,7 @@ const delete_post = async (req, res) => {
     try {
         const _id = req.params._id
         const username = req.user.username
-        const review = await Review.findOneAndDelete({ _id })
+        let review = await Review.findOne({ _id })
 
         if (!review) {
             createFlashCookie(res, 'Kunne ikke finne vurdering.', 'error')
@@ -56,10 +56,12 @@ const delete_post = async (req, res) => {
         if (review.op != username && req.user.isAdmin == false) {
             createFlashCookie(res, 'Ikke autorisert til å slette vurdering.', 'error')
             return res.redirect(`/review/view/${_id}`)
-        }
+        } 
         if (review.imageurl) { 
             await upload.deleteImageSFTP(review.imageurl)
         }
+        
+        review = await Review.deleteOne({ _id })
         
         const user = await User.findOne({ username })
         user.posts = user.posts.filter(item => item !== _id)
@@ -68,7 +70,7 @@ const delete_post = async (req, res) => {
         res.redirect(`/`)
     } catch (err) {
         console.log(err)
-        createFlashCookie(res, 'Error.', 'error')
+        createFlashCookie(res, 'Error, noe gikk galt under lagring av vurderingen.', 'error')
         res.redirect(`/review/view/${_id}`)
     }
 }
@@ -103,7 +105,7 @@ const like_post = async (req, res) => {
         res.redirect(`/review/view/${_id}`)
     } catch (err) {
         console.log(err)
-        createFlashCookie(res, 'Error.', 'error')
+        createFlashCookie(res, 'Error, noe gikk galt.', 'error')
         res.redirect('/')
     }
 }
@@ -136,7 +138,7 @@ const dislike_post = async (req, res) => {
         res.redirect(`/review/view/${_id}`)
     } catch (err) {
         console.log(err)
-        createFlashCookie(res, 'Error.', 'error')
+        createFlashCookie(res, 'Error, noe gikk galt.', 'error')
         res.redirect('/')
     }
 }
@@ -162,13 +164,13 @@ const report_post = async (req, res) => {
             review.reports.push(user._id)
             createFlashCookie(res, 'Rapportert vurdering.', 'success')
         } else {
-            createFlashCookie(res, 'Error; du har allerede rapportert vurderingen.', 'Error')
+            createFlashCookie(res, 'Error; du har allerede rapportert vurderingen.', 'error')
         }
         await review.save()
         res.redirect(`/review/view/${_id}`)
     } catch (err) {
         console.log(err)
-        createFlashCookie(res, 'Error.', 'error')
+        createFlashCookie(res, 'Error, noe gikk galt.', 'error')
         res.redirect('/')
     }
 }
@@ -213,7 +215,7 @@ const dismiss_post = async (req, res) => {
         res.redirect(`/review/view/${_id}`)
     } catch (err) {
         console.log(err)
-        createFlashCookie(res, 'Error.', 'error')
+        createFlashCookie(res, 'Error, noe gikk galt.', 'error')
         res.redirect('/')
     }
 }

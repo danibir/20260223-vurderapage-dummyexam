@@ -116,6 +116,8 @@ const user_delete = async (req, res) => {
         res.redirect('/')
     } catch (err) {
         console.error(err)
+        createFlashCookie(res, 'Error, noe gikk galt.', 'error')
+        res.redirect(`/profile/${username}`)
     }
 }
 
