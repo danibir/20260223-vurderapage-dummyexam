@@ -5,7 +5,7 @@ const controller_review = require('../controllers/con-review')
 const mid_auth = require('../middleware/mid-auth')
 
 const multer = require("multer")
-const upload = multer({ dest: "tmp/" })
+const upload = multer({ dest: ".temp/" })
 
 router.get('/create', mid_auth.authLogin, controller_review.create_get)
 router.post('/create', mid_auth.authLogin, upload.single('image'), controller_review.create_post)

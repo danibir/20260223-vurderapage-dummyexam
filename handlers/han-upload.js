@@ -5,9 +5,10 @@
 
     const imageserverIp = "10.12.15.23"
 
+    let privateKeyPath = null
     let privateKey = null
     try{
-        const privateKeyPath = path.join(os.homedir(), ".ssh", "sftp_node_key")
+        privateKeyPath = path.join(os.homedir(), ".ssh", "sftp_node_key")
         privateKey = fs.readFileSync(privateKeyPath)
     } catch (err) {}
 
@@ -17,29 +18,26 @@
         const ext = path.extname(originalName) || ".png"
         const random = Math.floor(Math.random() * 1e9)
         const filename = `${Date.now()}-${random}${ext}`
-
         try {
             const connectConfig = await sftp.connect({
                 host: imageserverIp,
                 port: 22,
                 username: "uploader",
-                password: "passwd"
+                password: "passwd",
+                privateKey
             })
-            if (privateKey) { 
-                connectConfig.privateKey = privateKey 
-            }
 
             const remotePath = `/images/${filename}`
             await sftp.put(localFilePath, remotePath)
             sftp.end()
-            fs.unlink(localFilePath, () => {})
+            fs.unlink(localFilePath)
             return `http://${imageserverIp}/images/${filename}`
         } catch (err) {
             console.error("sftp upload failed:", err)
             if (sftp.sftp) { 
                 await sftp.end() 
             }
-            fs.unlink(localFilePath, () => {})
+            fs.unlink(localFilePath)
             throw err
         }
     }
@@ -54,11 +52,9 @@
                 host: imageserverIp,
                 port: 22,
                 username: "uploader",
-                password: "passwd"
+                password: "passwd",
+                privateKey
             })
-            if (privateKey) { 
-                connectConfig.privateKey = privateKey 
-            }
 
             await sftp.delete(remotePath)
             sftp.end()
