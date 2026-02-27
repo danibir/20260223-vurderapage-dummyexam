@@ -30,14 +30,14 @@
             const remotePath = `/images/${filename}`
             await sftp.put(localFilePath, remotePath)
             sftp.end()
-            fs.unlink(localFilePath)
+            fs.unlink(localFilePath, ()=>{})
             return `http://${imageserverIp}/images/${filename}`
         } catch (err) {
             console.error("sftp upload failed:", err)
             if (sftp.sftp) { 
                 await sftp.end() 
             }
-            fs.unlink(localFilePath)
+            fs.unlink(localFilePath, ()=>{})
             throw err
         }
     }
