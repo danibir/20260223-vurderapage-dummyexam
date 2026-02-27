@@ -4,6 +4,7 @@ const upload = require("../handlers/han-upload")
 const { createFlashCookie } = require('../util/flashMessage')
 
 const create_get = (req, res) => {
+    res.locals.title = "Lag en vurdering!"
     res.render('reviewcreate')
 }
 const create_post = async (req, res) => {
@@ -32,6 +33,7 @@ const create_post = async (req, res) => {
 }
 
 const view_get = async (req, res) => {
+    res.locals.title = "Vurdering"
     try {
         const _id = req.params._id
         const review = await Review.findOne({ _id })
@@ -176,6 +178,7 @@ const report_post = async (req, res) => {
 }
 
 const reports_get = async (req, res) => {
+    res.locals.title = "Rapportert vurderinger"
     let reviews = await Review.find({ reports: { $not: { $size: 0 } } })
     for (var i = 0; i < reviews.length; i++)
     {
@@ -207,9 +210,9 @@ const dismiss_post = async (req, res) => {
         
         if (review.reports.length > 0) {
             review.reports = []
-            createFlashCookie(res, 'Autentiserte vurderingen!.', 'success')
+            createFlashCookie(res, 'Godkjente vurderingen!.', 'success')
         } else {
-            createFlashCookie(res, 'Vurderingen er allerede autentisk.', 'Info')
+            createFlashCookie(res, 'Vurderingen er allerede godkjent.', 'Info')
         }
         await review.save()
         res.redirect(`/review/view/${_id}`)

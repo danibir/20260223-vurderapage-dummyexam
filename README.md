@@ -1,87 +1,95 @@
-# 20260223-vurderapage-dummyexam
+## Om systemet 
 
-Git repo: https://github.com/danibir/20260223-vurderapage-dummyexam#
+Dette er en norsk webapplikasjon hvor brukere kan vurdere WCAG‑tilgjengeligheten til ulike nettsider. Løsningen lagrer vurderinger permanent, viser eksempelbilder, og lar brukere besøke nettstedene direkte. Administratorer kan moderere vurderinger innenfor webapplikasjonen.
 
-Siden skal registrere wcag vurderinger (forms) om nettsider fra brukere som inneholder op(skaper), tittel, tekst, url, og bilde(r?). Andre bruker kan vurdere vurderingen, en til form med op, og votevalue (enten positive eller negative vurdering). Siden skal arrangsjere nettsider basert på vurderinger
+---
 
+## Funksjonelle krav
 
-Driftplan
+- Brukere kan registrere, logge inn og administrere konto.
+- Brukere kan publisere WCAG-vurderinger med tekst URL og bilde.
+- Brukere kan se nettsidevurderinger om WCAG og besøke nettstedene.
+- Brukere kan gi positiv/negativ tilbakemelding på vurderinger.
+- Vurderinger sorteres basert på tilbakemeldinger.
+- Brukere kan rapportere upassende vurderinger.
+- Administratorer kan se rapporter og slette eller godkjenn vurderinger.
 
-Name		Ip-Address	Rolle
----		---		---
-vurder-dev	10.12.15.21	Development server
-vurder-mongo	10.12.15.22	Database server
-vurder-nginx	10.12.15.23	Image server
-vurder-pub	10.12.15.24	Production server
+---
 
+## Driftplan
 
+| Name         | IP Address   | Rolle               |
+|--------------|--------------|---------------------|
+| vurder-dev   | 10.12.15.21  | Development server  |
+| vurder-mongo | 10.12.15.22  | Database server     |
+| vurder-nginx | 10.12.15.23  | Image server        |
+| vurder-pub   | 10.12.15.24  | Production server   |
 
-Iteration 1: (x)
+Løsningen består av fire maskiner. Det var planlagt at de skulle ligge i et segmentert nettverk, men pga tekniske problemer har det ikke endt opp som en sterk prioritet til å fikse. Det er UFW på alle serverene, og nginxserveren har en spesiell STFP-bruker som er chroot jailed til å bare ha tilgang til bildemappen og trenger ssh key til å gi tilgang. 
 
-Database serveren står stabilt
-Bruker kan registrere, logge in eller ut, og slette brukeren sin
+---
 
-Iteration 2: (x)
+## Risikoanalyse
 
-Brukere kan legge til vurderinger med op, tittel, text, url, som er synlig til brukere. Url skal sende brukere til siden urlen er fra. Brukere skal kunne slette vurderingen
+Mulige trusler:
+- Uautorisert tilgang til database
+- Skadelige filer lastet opp av brukere
+- DDoS mot produksjonsserver
+- Feilkonfigurerte brannmurregler
+- Tap av data uten backup
 
-Iteration 3: (x)
+Tiltak:
+- Segmentert nettverk
+- Brannmur mellom alle maskiner
+- Filvalidering og begrensede filtyper
+- Tilgangskontroll og admin‑autorisering
+- Regelmessige sikkerhetskopier
 
-Vurderingsformen skal lagre bilder fra brukere
-Vurderinger kan bli stemt på
-
-Iteration 4: (x)
-
-God css på siden
-Dynamiske flashmessages for errors, info, annet diverse
-
-Iteration 5: (x)
-
-Brukere kan være admin og admins kan slette vurderinger
-Brukere kan rapportere vurderinger for uautentistet, varsler admins
-
-Iteration 6: (x)
-
-Implimentert brannmur som beskytter maskiner
-
-Iteration 7: (x)
-
-Legge til faq for brukere
-Readme skal ha dokumentert diverse detaljer om prosjektet
+---
 
 
+## Tidsestimat
 
-Funskjonliste
+Total utviklingstid: ca. 22-26 timer  
+- Behovsanalyse og planlegging: 2–3 timer  
+- Backend‑utvikling: 10-11 timer  
+- Frontend‑utvikling: 3–4 timer  
+- Admin‑system og rapportering: 3 timer  
+- Testing, drift og dokumentasjon: 4–5 timer  
 
-1. Bruker Funksjoner
+---
 
-Register ny brukere
-Logg inn og "authenticate" brukere
-Logg ut av sessions
-Se bruker profil
-Slett bruker profil
+## Kommunikasjonsplan
 
-2. WCAG Vurdering Funsjoner
+- Kunden får ukentlige statusoppdateringer.  
+- Endringer avtales skriftlig før implementasjon.  
+- Feil og support håndteres innenfor avtalte tidsvinduer.  
+- All kommunikasjon skjer via e‑post eller avtalt kanal.
 
-Publiser wcag vurdering med bilde og url
-Se vurderinger
-Slett egene vurderinger
-Lik eller mislik vurderinger
-Raporter upassende vurderinger
+---
 
-3. Admin Funsjoner
+## FAQ
 
-See alle raportet vurderinger
-Avvis raporter
-Slett vurderinger
+**Hvordan publiserer jeg en vurdering?**  
+Gå til “Ny vurdering”, fyll inn skjemaet og last opp et bilde.
 
+**Hvordan fungerer stemmesystemet?**  
+Du kan gi positiv eller negativ tilbakemelding. Rangering baseres på positiv - negativ * 0.3.
 
-4. System og Middleware Funksjoner
+**Hvordan rapporterer jeg en vurdering?** 
+Trykk “Rapporter” på bunnen av en vurderingsside. Administrator vil gjennomgå vurderingen og enten autentisere eller slette vurderingen.
 
-Authenticate session
-Authenticate brukere
-Authorize admin tilgang
-Last ned fil fra bruker
-Last opp fil til nginx server
-Håntering av flash meldinger
-Kobling til database
+**Hvordan blir jeg administrator?**  
+Administratorroller settes manuelt av systemeier.
+
+---
+
+## Installasjon
+
+```bash
+git clone https://github.com/danibir/20260223-vurderapage-dummyexam
+cd 20260223-vurderapage-dummyexam
+npm i
+
+#For å starte programmet
+nodemon app.js

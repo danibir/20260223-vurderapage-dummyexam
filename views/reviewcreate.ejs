@@ -1,27 +1,32 @@
 <%- include('./partials/head') %>
 
     <section class="block">
-        <h1>Lag vurdering</h1>
+        <h1>Skriv vurdering</h1>
         <form action="/review/create" method="post" enctype="multipart/form-data">
             <label for="title">Tittel</label>
             <br>
-            <input type="text" name="title" required>
+            <input type="text" name="title" required placeholder="Skriv tittel">
+            <br>
             <br>
             <label for="content">Vurdering</label>
             <br>
-            <textarea name="content" required class="textarea"></textarea>
+            <textarea name="content" required class="textarea" placeholder="Skriv WCAG vurdering av nettsiden"></textarea>
+            <br>
             <br>
             <label for="url">Link</label>
             <br>
-            <input type="url" name="url" required>
+            <input type="url" name="url" required placeholder="Legg til lenke til nettsiden">
             <br>
-            <label for="image">Bilde</label>
+            <br>
+            <label for="image">Bilde av nettsiden</label>
             <br>
             <input type="file" id="image" name="image" accept="image/*" required>
             <br>
             <br>
-            <button>Lag vurdering</button>
+            <br>
+            <button>Publiser vurdering</button>
         </form>
+        <p>PS! Vurderinger kan ikke redigeres!</p>
 
     </section>
 

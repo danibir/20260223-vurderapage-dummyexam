@@ -35,7 +35,7 @@
                     <div class="flexCol righted">
                         <% if (user.isAdmin == false && review.op != user.username) { 
                             if (!review.reports.includes(user._id)) { %>
-                                <h5>Er ikke vurderingen autentisk?</h5>
+                                <h5>Er ikke vurderingen passende?</h5>
                                 <div class="flexRow likeform righted">    
                                     <form action="/review/report/<%= review._id %>" method="post">
                                         <button class="<% if (review.reports.includes(user._id)) { %> formselected <% } %>" >
@@ -46,11 +46,11 @@
                             <% } else { %>
                                 <h5>Du har rapportert denne vurderingen. Administratorere har blitt varslet.</h5>
                         <% }} else if (user.isAdmin == true && review.reports.length > 0) { %>
-                            <h5>Denne vurderingen har blitt rapportert som uautentisk. Autentiser ilikevel?</h5>
+                            <h5>Denne vurderingen har blitt rapportert som upassende. Godkjenn ilikevel?</h5>
                             <div class="flexRow likeform righted">    
                                 <form action="/review/dismiss/<%= review._id %>" method="post">
                                     <button class="<% if (review.reports.includes(user._id)) { %> formselected <% } %>" >
-                                        Autentiser
+                                        Godkjenn
                                     </button>
                                 </form>
                             </div>

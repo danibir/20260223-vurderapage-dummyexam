@@ -1,6 +1,8 @@
 const Review = require('../models/mod-review')
 
 const index_get = async (req, res) => {
+    res.locals.title = "Hjemmeside"
+
     let reviews = await Review.find()
     for (var i = 0; i < reviews.length; i++)
     {
@@ -21,6 +23,7 @@ const index_get = async (req, res) => {
 }
 
 const faq_get = (req, res) => {
+    res.locals.title = "FAQ"
     res.render('faq')
 }
 

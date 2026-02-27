@@ -1,6 +1,6 @@
 <nav class="flexrow navbar">
     <div class="navitem">
-        <a href="/">Hjem</a>
+        <a href="/">VurderaPage</a>
     </div>
     <div class="navitem">
         <a href="/faq">FAQs</a>
@@ -10,7 +10,9 @@
             <a href="/review/create">Lag vurdering</a>
         </div>
     <% } %>
+    
     <div class="space"></div>
+    
     <% if (user && user.isAdmin) { %>
         <div class="navitem">
             <a href="/review/reported">Rapporter</a>

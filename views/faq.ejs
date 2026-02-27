@@ -11,10 +11,10 @@
         <h2>Generelle spørsmål</h2>
 
         <h3>Hva er WCAG?</h3>
-        <p>WCAG står for "Web Content Accessibility Guidelines". Det er internasjonale retningslinjer som beskriver hvordan nettsider bør utformes for å være tilgjengelige for alle, inkludert personer med ulike funksjonsnedsettelser. Retningslinjene dekker blant annet kontraster, navigasjon, tekstalternativer for bilder, struktur og universell utforming.</p>
+        <p>WCAG står for "Web Content Accessibility Guidelines". Det er internasjonale retningslinjer som beskriver hvordan nettsider bør utformes for å være tilgjengelige for alle, både personer med ulike enheter og/eller funksjonsnedsettelser. Retningslinjene dekker blant annet kontraster, navigasjon, tekstalternativer for bilder, struktur og universell utforming.</p>
         
         <h3>Hva er VurderaPage?</h3>
-        <p>VurderaPage er en tjeneste der brukere kan publisere WCAG‑vurderinger av nettsider. En vurdering inneholder tittel, tekst, URL, bilde(r) og informasjon om hvem som opprettet den. Andre brukere kan stemme positivt eller negativt på vurderinger.</p>
+        <p>VurderaPage er en tjeneste der brukere kan publisere WCAG‑vurderinger av nettsider. En vurdering inneholder tittel, tekst, URL, bilde og informasjon om hvem som opprettet den. Andre brukere kan stemme positivt eller negativt på vurderinger.</p>
 
         <h3>Hvordan oppretter jeg en bruker?</h3>
         <p>Du kan registrere en konto via registreringsskjemaet. Når du har en konto kan du logge inn, logge ut og slette kontoen din når du ønsker.</p>
@@ -26,16 +26,16 @@
         <p>Ja, du kan slette dine egne vurderinger når som helst.</p>
 
         <h3>Hvordan fungerer stemmingen?</h3>
-        <p>Alle brukere kan stemme positivt eller negativt på vurderinger. Stemmer påvirker rangeringen av vurderingene på siden.</p>
+        <p>Alle brukere kan stemme positivt eller negativt på vurderinger. Stemmer påvirker rangeringen av vurderingene på siden. Vurderinger med lav nok stemmer risikerer å bli tatt vekk.</p>
 
         <h3>Kan jeg rapportere en vurdering?</h3>
-        <p>Ja. Hvis du mener en vurdering er upassende eller feilaktig, kan du rapportere den. Administratorer vil da gjennomgå rapporten.</p>
+        <p>Ja. Hvis du mener en vurdering er upassende eller upassende, kan du rapportere den. Administratorer vil håndtere vurderingen.</p>
 
         <h3>Hvordan håndteres bilder jeg laster opp?</h3>
         <p>Bilder du laster opp lagres på en egen bildeserver. Systemet håndterer både opplasting og visning av bildene.</p>
 
         <h3>Hvordan fungerer innlogging og tilgang?</h3>
-        <p>Systemet bruker sesjonsbasert autentisering. Du må være innlogget for å opprette vurderinger, stemme og rapportere innhold.</p>
+        <p>Systemet bruker cookies som autentisering til brukere. Du må være innlogget for å opprette vurderinger, stemme og rapportere innhold.</p>
 
         <% if (user && user.isAdmin == true) { %>
             <hr>

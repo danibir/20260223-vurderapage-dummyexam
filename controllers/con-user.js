@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const { createFlashCookie } = require('../util/flashMessage')
 
 const login_get = (req, res) => {
+    res.locals.title = "Logg inn"
     if (!req.user)
     {
         res.render('login')
@@ -42,6 +43,8 @@ const login_post = async (req, res) => {
 }
 
 const signup_get = (req, res) => {
+    res.locals.title = "Registrer"
+
     if (!req.user)
     {
         res.render('signup')
@@ -94,6 +97,9 @@ const logout_post = (req, res) => {
 
 const profile_get = async (req, res) => {
     const username = req.params.username
+
+    res.locals.title = `Profile - ${username}` 
+
     const user = await User.findOne({ username })
     const profileUser = {
         username: user.username,
